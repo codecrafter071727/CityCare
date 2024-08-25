@@ -1,8 +1,11 @@
-import React from "react";
+import React from 'react'
 
-function HospitalSignUP() {
+function HosSignup() {
   return (
     <>
+    <div>
+        <Navbar/>
+    </div>
       <main className="flex items-center justify-center h-screen place-content-center">
         <div className="w-[88vh] h-[68vh]  border-black rounded-lg bg-white">
           <center className="items-center p-2 ">
@@ -85,7 +88,7 @@ function HospitalSignUP() {
         </div>
       </main>
     </>
-  );
+  )
 }
 
-export default HospitalSignUP;
+export default HosSignup
