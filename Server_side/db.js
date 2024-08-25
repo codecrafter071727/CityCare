@@ -120,6 +120,10 @@ const doctorSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  availability: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Availability",
+  }],
 });
 const availabilitySchema = new mongoose.Schema({
   hospital: {
@@ -150,7 +154,6 @@ const availabilitySchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
 
 const User = mongoose.model("User", userSchema);
 const Hospital = mongoose.model("Hospital", hospitalSchema);

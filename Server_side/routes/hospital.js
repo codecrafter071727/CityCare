@@ -1,7 +1,7 @@
 const express = require("express");
 const zod = require("zod");
 const zwt = require("jsonwebtoken");
-const { Hospital, Doctor } = require("../db");
+const { Hospital, Doctor, Availability } = require("../db");
 const { JWT_SECRET } = require("../configuration");
 const router = express.Router();
 
@@ -13,7 +13,7 @@ const signupBody = zod.object({
   address: zod.string(),
   numberOfBeds: zod.number(),
 });
-
+// sign up route!
 router.post("/signup", async (req, res) => {
   const {
     hospitalName,
@@ -61,7 +61,7 @@ const signinSchema = zod.object({
   email: zod.string(),
   password: zod.string(),
 });
-
+// signin route!
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   const { success } = signinSchema.safeParse(req.body);
@@ -82,7 +82,7 @@ router.post("/signin", async (req, res) => {
     token,
   });
 });
-
+// get all hospitals
 router.get("/gethospitals", async (req, res) => {
   try {
     const hospitals = await Hospital.find();
@@ -102,10 +102,9 @@ router.get("/gethospitals", async (req, res) => {
 
 router.post("/add-doctor/:hospitalId", async (req, res) => {
   try {
-    const { hospitalId } = req.params; 
+    const { hospitalId } = req.params;
     const { doctorName, doctorSpecialization, doctorStatus } = req.body;
 
-    
     const hospital = await Hospital.findById(hospitalId);
     if (!hospital) {
       return res.status(404).json({ message: "Hospital not found" });
@@ -129,5 +128,64 @@ router.post("/add-doctor/:hospitalId", async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+router.post("/add-availability/:hospitalId/:doctorId", async (req, res) => {
+  try {
+    const { hospitalId, doctorId } = req.params;
+    const { isAvailable, arrivalTime, DepartureTime } = req.body;
+    const hospital = await Hospital.findById(hospitalId);
+    const doctor = await Doctor.findById(doctorId);
+
+    console.log("Hospital:", hospital);
+    console.log("Doctor:", doctor);
+
+    if (!hospital || !doctor) {
+      return res.status(404).json({
+        message: "Hospital or doctor not exists",
+      });
+    }
+    const newAvailability = new Availability({
+      hospital: hospitalId,
+      doctor: doctorId,
+      isAvailable,
+      arrivalTime,
+      DepartureTime,
+    });
+    const savedAvailability = await newAvailability.save();
+    doctor.availability.push(savedAvailability._id);
+    await doctor.save();
+    res.status(201).json({
+      message: "availability added successfully",
+      availability: savedAvailability,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error while loading availability",
+      error: error.message,
+    });
+  }
+});
+
+router.post("/get-doctors/:hospitalId", async (req, res) => {
+  try {
+    const { hospitalId } = req.params;
+    const hospital = await Hospital.findById(hospitalId);
+    if (!hospital) {
+      return res.status(404).json({
+        message: "hospital not found",
+      });
+    }
+    const doctors = await Doctor.findById(hospitalId).populate("Doctor");
+    res.status(200).json({
+      message: "doctors found successfully",
+      doctors: doctors,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error while loading doctors",
+      error: error.message,
+    });
   }
 });
