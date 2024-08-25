@@ -4,6 +4,35 @@ const mongoose = require("mongoose");
 mongoose.connect(
   "mongodb+srv://vishurizz01:RzfgxKDYAOSSooKq@cluster0.7ozbuch.mongodb.net/Hospital_DB"
 );
+
+const userSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true,
+    minLength: 3,
+    maxLength: 30,
+  },
+  password: {
+    type: String,
+    required: true,
+    minLength: 6,
+  },
+  firstName: {
+    type: String,
+    required: true,
+    trim: true,
+    maxLength: 50,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true,
+    maxLength: 50,
+  },
+});
 // hospital model
 const hospitalSchema = new mongoose.Schema({
   hospitalName: {
@@ -92,44 +121,45 @@ const doctorSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-// Create a Schema for Users
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
+const availabilitySchema = new mongoose.Schema({
+  hospital: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Hospital",
     required: true,
-    unique: true,
-    trim: true,
-    lowercase: true,
-    minLength: 3,
-    maxLength: 30,
   },
-  password: {
-    type: String,
+  doctor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Doctor",
     required: true,
-    minLength: 6,
   },
-  firstName: {
-    type: String,
+  isAvailable: {
+    type: Boolean,
     required: true,
-    trim: true,
-    maxLength: 50,
+    default: true,
   },
-  lastName: {
+  arrivalTime: {
     type: String,
-    required: true,
-    trim: true,
-    maxLength: 50,
+    // required: true,
+  },
+  departureTime: {
+    type: String,
+    // required: true,
+  },
+  lastUpdated: {
+    type: Date,
+    default: Date.now,
   },
 });
 
-// const Account = mongoose.model('Account', accountSchema);
+
 const User = mongoose.model("User", userSchema);
 const Hospital = mongoose.model("Hospital", hospitalSchema);
-const Doctor = mongoose.model("Availability", doctorSchema);
+const Doctor = mongoose.model("doctors", doctorSchema);
+const Availability = mongoose.model("availability", availabilitySchema);
 
 module.exports = {
   User,
   Hospital,
   Doctor,
+  Availability,
 };
