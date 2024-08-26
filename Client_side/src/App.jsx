@@ -4,7 +4,7 @@ import MainPage from "./pages/MainPage";
 import HospitalSignin from "./pages/HospitalSignin";
 import HosSignup from "./pages/HosSignup";
 
-function App() {
+function App() { 
   return (
     <>
       <BrowserRouter>

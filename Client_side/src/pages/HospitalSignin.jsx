@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 function HospitalSignin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(async () => {
+    axios.post("http://localhost:3000/api/v1/")
+  });
+
   return (
     <>
-    <div>
-        <Navbar/>
-    </div>
+      <div>
+        <Navbar />
+      </div>
       <main className="flex items-center justify-center h-screen place-content-center">
         <div className="w-[88vh] h-[50vh]  border-black rounded-lg bg-white shadow-md p-3">
           <center className="items-center p-2 ">
@@ -19,9 +27,12 @@ function HospitalSignin() {
             <p className="py-2 pl-1 m-0 font-medium"> Email </p>
             <div className="input-group flex-nowrap">
               <input
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 type="text"
                 className="form-control"
-                placeholder="Vishu"
+                placeholder=""
                 aria-label="Username"
                 aria-describedby="addon-wrapping"
               />
@@ -29,9 +40,12 @@ function HospitalSignin() {
             <p className="py-2 pl-1 m-0 font-medium"> Password </p>
             <div className="input-group flex-nowrap">
               <input
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 type="text"
                 className="form-control"
-                placeholder="Pratap"
+                placeholder=""
                 aria-label="Username"
                 aria-describedby="addon-wrapping"
               />
