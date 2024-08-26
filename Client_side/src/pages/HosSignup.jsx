@@ -1,22 +1,32 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
+import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import axios from "axios";
 
 function HosSignup() {
+  const [hospitalName, setHospitalName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [address, setAdress] = useState("");
+  const [numberOfBeds, setBeds] = useState("");
+  // console.log(hospitalName)
   return (
     <>
-    <div>
-        <Navbar/>
-    </div>
+      <div>
+        <Navbar />
+      </div>
       <main className="flex items-center justify-center h-screen place-content-center">
         <div className="w-[88vh] h-[68vh]  border-black rounded-lg bg-white">
           <center className="items-center p-2 ">
             <h1>Sign up</h1>
-            
           </center>
           <div className="px-2">
             <p className="py-2 pl-1 m-0 font-medium"> Hospital Name </p>
-            <div claclassNamess="input-group flex-nowrap">
+            <div className="input-group flex-nowrap">
               <input
+                onChange={(e) => {
+                  setHospitalName(e.target.value);
+                }}
                 type="text"
                 className="form-control"
                 placeholder=""
@@ -27,6 +37,9 @@ function HosSignup() {
             <p className="py-2 pl-1 m-0 font-medium"> Email </p>
             <div className="input-group flex-nowrap">
               <input
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 type="text"
                 className="form-control"
                 placeholder=""
@@ -37,6 +50,9 @@ function HosSignup() {
             <p className="py-2 pl-1 m-0 font-medium"> Password </p>
             <div className="input-group flex-nowrap">
               <input
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 type="text"
                 className="form-control"
                 placeholder=""
@@ -47,6 +63,9 @@ function HosSignup() {
             <p className="py-2 pl-1 m-0 font-medium"> Contact Number </p>
             <div className="input-group flex-nowrap">
               <input
+                onChange={(e) => {
+                  setContactNumber(e.target.value);
+                }}
                 type="text"
                 className="form-control"
                 placeholder=""
@@ -57,6 +76,9 @@ function HosSignup() {
             <p className="py-2 pl-1 m-0 font-medium"> Address </p>
             <div className="input-group flex-nowrap">
               <input
+                onChange={(e) => {
+                  setAdress(e.target.value);
+                }}
                 type="text"
                 className="form-control"
                 placeholder=""
@@ -67,6 +89,9 @@ function HosSignup() {
             <p className="py-2 pl-1 m-0 font-medium"> Number of beds </p>
             <div className="input-group flex-nowrap">
               <input
+                onChange={(e) => {
+                  setBeds(e.target.value);
+                }}
                 type="text"
                 className="form-control"
                 placeholder=""
@@ -76,18 +101,43 @@ function HosSignup() {
             </div>
           </div>
           <div className="px-3 py-3">
-            <button type="button" className="w-full h-9 bg-[rgba(240,78,47,255)] rounded-md text-white">
+            <button
+              onClick={async () => {
+                try {
+                  const response = await axios.post(
+                    "http://localhost:3000/api/v1/hospital/signup",
+                    {
+                      hospitalName,
+                      email,
+                      password,
+                      contactNumber,
+                      address,
+                      numberOfBeds,
+                    }
+                  );
+                  console.log("this is the response bc", response.data.token);
+                  localStorage.setItem("token", response.data.token);
+                } catch (error) {
+                  console.error("An error occurred:", error);
+                  console.log("Error response data:", error.response.data);
+                }
+              }}
+              type="button"
+              className="w-full h-9 bg-[rgba(240,78,47,255)] rounded-md text-white"
+            >
               Sign up
             </button>
             <div className="flex justify-center">
-              <div className="cursor-pointer ">Hospital already Registered? </div>
+              <div className="cursor-pointer ">
+                Hospital already Registered?{" "}
+              </div>
               <div className="underline cursor-pointer"> Signin</div>
             </div>
           </div>
         </div>
       </main>
     </>
-  )
+  );
 }
 
-export default HosSignup
+export default HosSignup;

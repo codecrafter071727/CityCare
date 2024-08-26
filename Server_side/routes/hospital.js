@@ -23,12 +23,12 @@ router.post("/signup", async (req, res) => {
     address,
     numberOfBeds,
   } = req.body;
-  const { success } = signupBody.safeParse(req.body);
-  if (!success) {
-    return res.status(411).json({
-      message: "Email already taken / Incorrect inputs",
-    });
-  }
+  // const { success } = signupBody.safeParse(req.body);
+  // if (!success) {
+  //   return res.status(411).json({
+  //     message: "Email already taken / Incorrect inputs",
+  //   });
+  // }
 
   const existingUser = await Hospital.findOne({
     hospitalName: hospitalName,
