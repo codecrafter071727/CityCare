@@ -6,27 +6,84 @@ import { RxCross1 } from "react-icons/rx";
 import SideScroll from "./SideScroll";
 
 function Navbar() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
   const [nav, setNav] = useState(true);
   return (
     <>
       <nav className="flex fixed top-0 left-0 w-full h-[9vh] justify-around px-2 text-xl shadow-sm z-10 bg-white ">
         <div className="flex p-2">
           {" "}
-          <FaHospitalUser size={60} />
+          <a href="/">
+            <FaHospitalUser color="black" size={60} />
+          </a>
           <div className="px-3 pt-3 text-3xl max-md:text-xl max-md:mt-2">
-            CityCare
+            <a href="/" className="text-black no-underline ">
+              CityCare
+            </a>
           </div>
         </div>
         <div className="flex pt-[2vh] gap-x-8 text-slate-600 max-md:hidden">
           <div className="flex p-2 cursor-pointer gap-x-8">
-            <div className="hover:scale-110">Services</div>
-            <div className="hover:scale-110">ContactUs</div>
-            <div className="hover:scale-110">Login</div>
-            <div className="hover:scale-110">Signup</div>
+            <ul></ul>
+            <div className="duration-100 hover:scale-110">Services</div>
+            <div className="duration-100 hover:scale-110">ContactUs</div>
+            <div
+              className="relative "
+              onMouseEnter={toggleDropdown}
+              onMouseLeave={toggleDropdown}
+            >
+              <a href="#" className="no-underline text-slate-600">
+                Sign Up / Sign In
+              </a>
+              {isDropdownOpen && (
+                <div className="absolute left-0 p-3 bg-white shadow-lg h-52 w-52 rounded-xl text-slate-200">
+                  <div>
+                    <a
+                      href="/hospital-signin"
+                      className="block no-underline duration-300 border-b-2 text-slate-600 hover:scale-110"
+                    >
+                      Hospital Login
+                    </a>
+                  </div>
+
+                  <div>
+                    <a
+                      href="/patient-signin"
+                      className="block pt-3 no-underline duration-300 border-b-2 text-slate-600 hover:scale-110"
+                    >
+                      Patient Login
+                    </a>
+                  </div>
+                  <div>
+                    <a
+                      href="/admin-login"
+                      className="block pt-3 no-underline duration-300 border-b-2 text-slate-600 hover:scale-110"
+                    >
+                      Admin Login
+                    </a>
+                  </div>
+                  <div>
+                    <div
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        alert("you are logged out successfuly");
+                      }}
+                      className="block pt-3 no-underline duration-300 border-b-2 text-slate-600 hover:scale-110"
+                    >
+                      Logout
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             <div className=" hover:scale-110">crazy</div>
           </div>
         </div>
-        <div className="pt-[1.5vh] flex">
+        <div className="pt-[1.5vh] flex pl-14">
           <GlowingButton />
           <div
             onClick={() => {
@@ -36,16 +93,14 @@ function Navbar() {
           >
             {nav ? (
               <RxCross1 size={35} />
-             
             ) : (
               <RxHamburgerMenu className="" size={35} />
             )}
           </div>
         </div>
         <div>
-        <SideScroll  nav={nav} />
+          <SideScroll nav={nav} />
         </div>
-        
       </nav>
     </>
   );

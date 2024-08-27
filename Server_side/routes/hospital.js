@@ -3,16 +3,17 @@ const zod = require("zod");
 const zwt = require("jsonwebtoken");
 const { Hospital, Doctor, Availability } = require("../db");
 const { JWT_SECRET } = require("../configuration");
+const { default: mongoose } = require("mongoose");
 const router = express.Router();
 
-const signupBody = zod.object({
-  hospitalName: zod.string(),
-  email: zod.string().email(),
-  password: zod.string().min(3),
-  contactNumber: zod.string(),
-  address: zod.string(),
-  numberOfBeds: zod.number(),
-});
+// const signupBody = zod.object({
+//   hospitalName: zod.string(),
+//   email: zod.string().email(),
+//   password: zod.string().min(3),
+//   contactNumber: zod.string(),
+//   address: zod.string(),
+//   numberOfBeds: zod.number(),
+// });
 // sign up route!
 router.post("/signup", async (req, res) => {
   const {
@@ -168,21 +169,33 @@ router.post("/add-availability/:hospitalId/:doctorId", async (req, res) => {
   }
 });
 
-router.post("/get-doctors/:hospitalId", async (req, res) => {
+router.get("/get-doctors/:hospitalId", async (req, res) => {
   try {
     const { hospitalId } = req.params;
-    const hospital = await Hospital.findById(hospitalId);
-    if (!hospital) {
-      return res.status(404).json({
-        message: "hospital not found",
+
+  
+    if (!mongoose.Types.ObjectId.isValid(hospitalId)) {
+      return res.status(400).json({
+        message: "Invalid hospital ID format",
       });
     }
-    const doctors = await Doctor.findById(hospitalId).populate("Doctor");
+
+    
+    const hospital = await Hospital.findById(hospitalId).populate("doctors");
+
+    if (!hospital) {
+      return res.status(404).json({
+        message: "Hospital not found",
+      });
+    }
+
+   
     res.status(200).json({
-      message: "doctors found successfully",
-      doctors: doctors,
+      message: "Doctors found successfully",
+      doctors: hospital.doctors,
     });
   } catch (error) {
+    console.error("Error while loading doctors:", error);
     res.status(500).json({
       message: "Error while loading doctors",
       error: error.message,

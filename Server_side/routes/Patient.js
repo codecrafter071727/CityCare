@@ -5,7 +5,7 @@ const router = express.Router();
 const zod = require("zod");
 const { Patient } = require("../db");
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = require("../configuration");
+const { JWT_SECRET } = require("../configuration");
 // const { authMiddleware } = require("../middleware");
 
 // const signupBody = zod.object({
@@ -59,42 +59,47 @@ router.post("/signup", async (req, res) => {
   });
 });
 
-// const signinBody = zod.object({
-//   email: zod.string().email(),
-//   password: zod.string(),
-// });
+const signinBody = zod.object({
+  email: zod.string().email(),
+  password: zod.string(),
+});
 
-// router.post("/signin", async (req, res) => {
-//   const { success } = signinBody.safeParse(req.body);
-//   if (!success) {
-//     return res.status(411).json({
-//       message: "Email already taken / Incorrect inputs",
-//     });
-//   }
+router.post("/signin", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const { success } = signinBody.safeParse(req.body);
+    if (!success) {
+      return res.status(411).json({
+        message: " Incorrect inputs",
+      });
+    }
 
-//   const user = await Patient.findOne({
-//     username: req.body.username,
-//     password: req.body.password,
-//   });
+    const patient = await Patient.findOne({
+      email,
+      password,
+    });
 
-//   if (user) {
-//     const token = jwt.sign(
-//       {
-//         userId: user._id,
-//       },
-//       JWT_SECRET
-//     );
+    if (patient) {
+      const token = jwt.sign(
+        {
+          patient: patient._id,
+        },
+        JWT_SECRET
+      );
 
-//     res.json({
-//       token: token,
-//     });
-//     return;
-//   }
-
-//   res.status(411).json({
-//     message: "Error while logging in",
-//   });
-// });
+      res.json({
+        message: "patient singed in successfully",
+        token: token,
+      });
+      return;
+    }
+  } catch (error) {
+    res.status(400).json({
+      message: "Error while logging in! retry",
+      error: error.message,
+    });
+  }
+});
 
 // const updateBody = zod.object({
 //   password: zod.string().optional(),
