@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function HospitalSignin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(async () => {
-    axios.post("http://localhost:3000/api/v1/")
-  });
+  const navigate = useNavigate();
 
   return (
     <>
@@ -18,7 +16,7 @@ function HospitalSignin() {
       <main className="flex items-center justify-center h-screen place-content-center">
         <div className="w-[88vh] h-[50vh]  border-black rounded-lg bg-white shadow-md p-3">
           <center className="items-center p-2 ">
-            <h1>Sign in</h1>
+            <h1>{email}</h1>
             <p className="text-slate-500">
               Enter your credentials to access your Hospital dashboard
             </p>
@@ -52,7 +50,27 @@ function HospitalSignin() {
             </div>
           </div>
           <div className="px-3 py-3">
-            <button type="button" className="w-full btn btn-dark">
+            <button
+              onClick={async () => {
+                try {
+                  const response = await axios.post(
+                    "http://localhost:3000/api/v1/hospital/signin",
+                    {
+                      email,
+                      password,
+                    }
+                  );
+                  console.log("this is the response bc", response.data.token);
+                  localStorage.setItem("token", response.data.token);
+                  navigate("/hospital-dashboard");
+                } catch (error) {
+                  console.error("An error occurred:", error);
+                  console.log("Error response data:", error.response.data);
+                }
+              }}
+              type="button"
+              className="w-full btn btn-dark"
+            >
               Sign in
             </button>
             <div className="flex justify-center">

@@ -9,7 +9,6 @@ function HosSignup() {
   const [contactNumber, setContactNumber] = useState("");
   const [address, setAdress] = useState("");
   const [numberOfBeds, setBeds] = useState("");
-  // console.log(hospitalName)
   return (
     <>
       <div>
@@ -115,7 +114,7 @@ function HosSignup() {
                       numberOfBeds,
                     }
                   );
-                  console.log("this is the response bc", response.data.token);
+                //  console.log("this is the response bc", response.data.token);
                   localStorage.setItem("token", response.data.token);
                 } catch (error) {
                   console.error("An error occurred:", error);
