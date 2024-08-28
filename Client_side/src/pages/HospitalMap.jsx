@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function Hospital() {
+  useEffect(async()=>{
+  const hospitals = await axios.get("http://localhost:3000/api/v1/hospital/gethospitals")
+    console.log(hospitals)
+})
   return (
-    <div className=''>
-      
-    </div>
+    <center className=''>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
+    </center>
   )
 }
 

@@ -172,15 +172,6 @@ router.post("/add-availability/:hospitalId/:doctorId", async (req, res) => {
 router.get("/get-doctors/:hospitalId", async (req, res) => {
   try {
     const { hospitalId } = req.params;
-
-  
-    if (!mongoose.Types.ObjectId.isValid(hospitalId)) {
-      return res.status(400).json({
-        message: "Invalid hospital ID format",
-      });
-    }
-
-    
     const hospital = await Hospital.findById(hospitalId).populate("doctors");
 
     if (!hospital) {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function HosSignup() {
   const [hospitalName, setHospitalName] = useState("");
@@ -9,6 +10,7 @@ function HosSignup() {
   const [contactNumber, setContactNumber] = useState("");
   const [address, setAdress] = useState("");
   const [numberOfBeds, setBeds] = useState("");
+  const navigate = useNavigate();
   return (
     <>
       <div>
@@ -114,7 +116,7 @@ function HosSignup() {
                       numberOfBeds,
                     }
                   );
-                //  console.log("this is the response bc", response.data.token);
+                  //  console.log("this is the response bc", response.data.token);
                   localStorage.setItem("token", response.data.token);
                 } catch (error) {
                   console.error("An error occurred:", error);
@@ -130,7 +132,15 @@ function HosSignup() {
               <div className="cursor-pointer ">
                 Hospital already Registered?{" "}
               </div>
-              <div className="underline cursor-pointer"> Signin</div>
+              <div
+                onClick={() => {
+                  navigate("/hospital-signin");
+                }}
+                className="underline cursor-pointer"
+              >
+                {" "}
+                Signin
+              </div>
             </div>
           </div>
         </div>

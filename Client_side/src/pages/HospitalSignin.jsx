@@ -75,7 +75,9 @@ function HospitalSignin() {
             </button>
             <div className="flex justify-center">
               <div className="cursor-pointer ">Don't have an account? </div>
-              <div className="underline cursor-pointer"> Signup</div>
+              <div onClick={()=>{
+                navigate("/hospital-signup")
+              }} className="underline cursor-pointer"> Signup</div>
             </div>
           </div>
         </div>
