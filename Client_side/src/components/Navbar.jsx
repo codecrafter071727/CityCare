@@ -4,14 +4,16 @@ import GlowingButton from "./GlowingButton";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross1 } from "react-icons/rx";
 import SideScroll from "./SideScroll";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  const [nav, setNav] = useState(true);
+  const [nav, setNav] = useState(false);
   return (
     <>
       <nav className="flex fixed top-0 left-0 w-full h-[9vh] justify-around px-2 text-xl shadow-sm z-10 bg-white ">
@@ -26,10 +28,10 @@ function Navbar() {
             </a>
           </div>
         </div>
-        <div className="flex pt-[2vh] gap-x-8 text-slate-600 max-md:hidden">
+        <div className="flex pt-[2vh] gap-x-8 text-slate-600 max-lg:hidden">
           <div className="flex p-2 cursor-pointer gap-x-8">
             <ul></ul>
-            <div className="duration-100 hover:scale-110">Services</div>
+            <div className="duration-100 hover:scale-110 ">Services</div>
             <div className="duration-100 hover:scale-110">ContactUs</div>
             <div
               className="relative "
@@ -80,7 +82,14 @@ function Navbar() {
                 </div>
               )}
             </div>
-            <div className=" hover:scale-110">crazy</div>
+            <div
+              onClick={() => {
+                navigate("/dispensation");
+              }}
+              className=" hover:scale-110"
+            >
+              Dispensation
+            </div>
           </div>
         </div>
         <div className="pt-[1.5vh] flex pl-14">

@@ -6,6 +6,9 @@ import HosSignup from "./pages/HosSignup";
 import HospitalDashboard from "./pages/HospitalDashboard";
 import PatientSignup from "./pages/PatientSignup";
 import PatientSignin from "./pages/PatientSignin";
+import HospitalList from "./pages/HospitalList";
+import DoctorList from "./pages/DoctorList";
+import Dispensation from "./pages/Dispensation";
 
 function App() {
   return (
@@ -18,7 +21,9 @@ function App() {
           <Route path="/hospital-dashboard" element={<HospitalDashboard />} />
           <Route path="/patient-signin" element={<PatientSignin />} />
           <Route path="/patient-signup" element={<PatientSignup />} />
-          
+          <Route path="/hospital-list" element={<HospitalList />} />
+          <Route path="/doctor-list" element={<DoctorList />} />
+          <Route path="/dispensation" element={<Dispensation />} />
         </Routes>
       </BrowserRouter>
     </>

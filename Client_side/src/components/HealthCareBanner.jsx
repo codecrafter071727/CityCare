@@ -3,7 +3,7 @@ import React from "react";
 function HealthCareBanner() {
   return (
     <div
-      className="relative w-full h-[60vh] bg-center bg-cover"
+      className="relative w-full mt-28 h-[32vh] bg-center bg-cover"
       style={{ backgroundImage: "url('../assets/3.png')" }}
     >
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-70">
@@ -40,8 +40,11 @@ function HealthCareBanner() {
             </button>
           </div>
         </div>
+      
       </div>
+      
     </div>
+   
   );
 }
 
