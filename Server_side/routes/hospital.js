@@ -107,7 +107,6 @@ router.get("/get-hospital/:hospitalId", async (req, res) => {
   try {
     const { hospitalId } = req.params;
 
-    // Use findById to fetch the hospital with the given ID
     const hospital = await Hospital.findById(hospitalId);
 
     if (!hospital) {
@@ -116,8 +115,8 @@ router.get("/get-hospital/:hospitalId", async (req, res) => {
       });
     }
 
-    // Respond with the hospital data
     res.status(200).json({
+      // name: hospital.hospitalName,
       hospital,
     });
   } catch (error) {

@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import Loader from "../components/Loader";
 
 const FeatureCard = ({ title, content }) => (
   <div className={`p-4 w-[50rem] rounded-lg bg-slate-100 `}>
@@ -21,30 +24,53 @@ const PatientQueue = () => (
             <th className="text-left">Status</th>
           </tr>
         </thead>
-       
       </table>
       <div className="flex gap-x-12">
-            <p>vishu</p>
-            <p>24 august</p>
-            <p>300</p>
-            <p className="ml-8">coming</p>
-          </div>
+        <p>vishu</p>
+        <p>24 august</p>
+        <p>300</p>
+        <p className="ml-8">coming</p>
+      </div>
     </div>
   </div>
 );
+
 function HospitalDashboard() {
-  const patients = Array.from({ length: 10 }).map((_, index) => ({
-    name: `Patient ${index + 1}`,
-    date: `2024-04-0${index + 1}`,
-    amount: `$${(index + 1) * 100}`,
-    status: index % 2 === 0 ? "Success" : "Pending",
-  }));
+  const [hospitalData, setHospitalData] = useState(null); // Initialize to null or an empty object
+  const { hospitalId } = useParams();
+
+  useEffect(() => {
+    const getHospital = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/hospital/get-hospital/${hospitalId}`
+        );
+        setHospitalData(response.data);
+      } catch (error) {
+        console.error("Error fetching hospital data:", error);
+      }
+    };
+    getHospital();
+  }, [hospitalId]);
+
+  if (!hospitalData) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>
       <Navbar />
+      
       <div className="flex flex-wrap min-h-screen gap-4 p-8 mt-12 bg-gradient-to-r ">
+      <div className="text-xl">
+      {hospitalData.hospital.hospitalName}
+      </div>
         <div className="flex flex-col w-full gap-4 lg:flex-row">
+          
           <FeatureCard
             title="Total payCheque"
             content={
@@ -74,42 +100,6 @@ function HospitalDashboard() {
           />
           <PatientQueue />
         </div>
-        {/* <FeatureCard
-        title="Upcoming Bills"
-        content={
-          <div className="flex flex-wrap gap-4">
-            <div className="w-1/5 p-4 bg-white rounded-lg">
-              Studio Shodwe
-              <br />5 days left
-              <br />
-              $500
-            </div>
-            <div className="w-1/5 p-4 bg-white rounded-lg">
-              Larana Inc.
-              <br />5 days left
-              <br />
-              $500
-            </div>
-            <div className="w-1/5 p-4 bg-white rounded-lg">
-              New Bill 1<br />5 days left
-              <br />
-              $500
-            </div>
-            <div className="w-1/5 p-4 bg-white rounded-lg">
-              New Bill 2<br />5 days left
-              <br />
-              $500
-            </div>
-            <div className="w-1/5 p-4 bg-white rounded-lg">
-              New Bill 2<br />5 days left
-              <br />
-              $500
-            </div>
-          </div>
-        }
-        bgColor="bg-slate-100 text-black"
-        extraClasses="w-full"
-      /> */}
       </div>
     </>
   );

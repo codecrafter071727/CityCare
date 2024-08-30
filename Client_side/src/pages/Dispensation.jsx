@@ -90,7 +90,7 @@ function App() {
   );
 
   return (
-    <div className="bg-white">
+    <div className="mt-10 bg-white">
       {/* Navbar */}
       <Navbar />
 
