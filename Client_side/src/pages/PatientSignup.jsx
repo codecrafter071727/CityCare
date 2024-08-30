@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function PatientSignup() {
   const [name, setName] = useState("");
@@ -10,6 +11,7 @@ function PatientSignup() {
   const [age, setAge] = useState("");
   const [medicalHistory, setMed] = useState("");
 
+  const navigate = useNavigate();
   return (
     <>
       <Navbar />
@@ -111,6 +113,8 @@ function PatientSignup() {
                     age,
                   }
                 );
+                alert("patient singed up successfully");
+                navigate("/patient-dashboard");
                 //  console.log("this is the response bc", response.data.token);
                 localStorage.setItem("token", response.data.token);
               }}

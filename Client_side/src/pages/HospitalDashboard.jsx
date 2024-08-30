@@ -1,163 +1,115 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 
+const FeatureCard = ({ title, content }) => (
+  <div className={`p-4 w-[50rem] rounded-lg bg-slate-100 `}>
+    <h3 className="mb-4 text-xl font-bold">{title}</h3>
+    <div>{content}</div>
+  </div>
+);
+
+const PatientQueue = () => (
+  <div className="flex flex-col h-screen p-4 text-black rounded-lg bg-slate-100 w-[33rem]">
+    <h3 className="mb-4 text-xl font-bold text-black">Patient Queue</h3>
+    <div className="flex-grow p-4 overflow-y-scroll bg-white rounded-lg">
+      <table className="w-full">
+        <thead className="sticky top-0 bg-white">
+          <tr>
+            <th className="text-left">Name</th>
+            <th className="text-left">Date</th>
+            <th className="text-left">Amount</th>
+            <th className="text-left">Status</th>
+          </tr>
+        </thead>
+       
+      </table>
+      <div className="flex gap-x-12">
+            <p>vishu</p>
+            <p>24 august</p>
+            <p>300</p>
+            <p className="ml-8">coming</p>
+          </div>
+    </div>
+  </div>
+);
 function HospitalDashboard() {
+  const patients = Array.from({ length: 10 }).map((_, index) => ({
+    name: `Patient ${index + 1}`,
+    date: `2024-04-0${index + 1}`,
+    amount: `$${(index + 1) * 100}`,
+    status: index % 2 === 0 ? "Success" : "Pending",
+  }));
+
   return (
     <>
-      <div className="min-h-screen p-4 bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300">
-        {/* Navbar */}
-        <div className="flex items-center justify-between p-4 bg-blue-900 bg-opacity-80 rounded-xl">
-          <div className="flex space-x-4">
-            <button className="px-4 py-2 text-white bg-blue-700 rounded-full">
-              Account
-            </button>
-            <button className="px-4 py-2 text-white bg-purple-700 rounded-full">
-              Dashboard
-            </button>
-            <button className="px-4 py-2 text-white bg-blue-700 rounded-full">
-              Settings
-            </button>
-            <button className="px-4 py-2 text-white bg-blue-700 rounded-full">
-              Help
-            </button>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="text-2xl font-bold text-white">Logo</div>
-            <input
-              type="text"
-              placeholder="Search here"
-              className="px-4 py-2 text-white placeholder-white bg-white rounded-full bg-opacity-40 focus:outline-none focus:ring-2 focus:ring-white"
-            />
-            <div className="flex space-x-2">
-              <button className="text-white">
-                <i className="fas fa-comment-dots"></i>
-              </button>
-              <button className="text-white">
-                <i className="fas fa-bell"></i>
-              </button>
-              <button className="text-white">
-                <i className="fas fa-bars"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3">
-          {/* Total Balance Card */}
-          <div className="col-span-2 p-6 text-white bg-blue-700 bg-opacity-50 rounded-xl">
-            <h2 className="text-xl">Total Balance</h2>
-            <p className="mt-4 text-5xl font-bold">$20,500.05</p>
-            <div className="flex justify-between mt-4 text-sm">
-              <div>
-                <p>Replenishment</p>
-                <p>Last: April 2nd, 2024</p>
-                <p>Next: May 2nd, 2024</p>
-              </div>
-              <div>
-                <p>Budget</p>
-                <p>Daily: $200</p>
-                <p>Monthly: $5,000</p>
-              </div>
-              <div>
-                <p>Income</p>
-                <p>Last Month: $10,000</p>
-                <p>This Month: $15,000</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Patient queue Card */}
-          <div className="p-6 text-white bg-purple-700 bg-opacity-50 rounded-xl">
-            <h2 className="mb-4 text-xl">Patient Queue</h2>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm">Name</span>
-              <span className="text-sm">Date</span>
-              <span className="text-sm">Amount</span>
-              <span className="text-sm">Status</span>
-            </div>
-            {/* Scrollable Section */}
-            <div className="pr-2 space-y-2 overflow-y-auto max-h-40">
-              {[
-                "Studio Shodwe",
-                "Borcelie",
-                "Fauget",
-                "Larana Inc.",
-                "New Entry 1",
-                "New Entry 2",
-              ].map((name, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-2 bg-white rounded-md bg-opacity-20"
-                >
-                  <div className="flex items-center space-x-2">
-                    <div className="p-2 bg-white rounded-full">
-                      {/* Icon Placeholder */}
-                      <i className="fas fa-building"></i>
-                    </div>
-                    <span>{name}</span>
-                  </div>
-                  <span>May 2nd, 2024</span>
-                  <span>$1,000.50</span>
-                  <button
-                    className={`px-4 py-2 rounded-full ${
-                      index % 2 === 0 ? "bg-green-500" : "bg-red-500"
-                    }`}
-                  >
-                    {index % 2 === 0 ? "Success" : "Pending"}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Credit Card Info Card */}
-          {/* <div className="p-6 text-white bg-blue-700 bg-opacity-50 rounded-xl max-md:hidden">
-            <h2 className="mb-4 text-xl">Credit Card</h2>
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-yellow-500 rounded-full"></div>
-              <div>
-                <p>123-456-7890</p>
-                <p className="text-sm">Claudia Alves</p>
-                <p className="text-sm">Valid Thru December 2024</p>
-              </div>
-            </div>
-          </div> */}
-
-          {/* Upcoming Bills Card with Scroll */}
-          <div className="col-span-2 p-6 text-white bg-purple-700 bg-opacity-50 rounded-xl">
-            <h2 className="mb-4 text-xl">Upcoming Bills</h2>
-            {/* Scrollable Section */}
-            <div className="flex space-x-4 overflow-x-auto">
-              {[
-                "Studio Shodwe",
-                "Larana Inc.",
-                "New Bill 1",
-                "New Bill 2",
-                "New Bill 2",
-                "New Bill 2",
-                "New Bill 2",
-              ].map((bill, index) => (
-                <div
-                  key={index}
-                  className="flex items-center p-4 space-x-4 text-black bg-white rounded-md bg-opacity-20 min-w-max"
-                >
-                  <div className="p-2 bg-white rounded-full">
-                    {/* Icon Placeholder */}
-                    <i className="fas fa-building"></i>
+      <Navbar />
+      <div className="flex flex-wrap min-h-screen gap-4 p-8 mt-12 bg-gradient-to-r ">
+        <div className="flex flex-col w-full gap-4 lg:flex-row">
+          <FeatureCard
+            title="Total payCheque"
+            content={
+              <>
+                <div className="text-3xl font-bold">$20,500.05</div>
+                <div className="flex justify-between mt-4 max-md:hidden max-md:w-[32rem]">
+                  <div>
+                    <div>Replenishment</div>
+                    <div>Last: April 2nd, 2024</div>
+                    <div>Next: May 2nd, 2024</div>
                   </div>
                   <div>
-                    <p>{bill}</p>
-                    <p className="text-sm">5 days left</p>
-                    <p className="text-sm">$500</p>
+                    <div>Budget</div>
+                    <div>Daily: $200</div>
+                    <div>Monthly: $5,000</div>
+                  </div>
+                  <div>
+                    <div>Income</div>
+                    <div>Last Month: $10,000</div>
+                    <div>This Month: $15,000</div>
                   </div>
                 </div>
-              ))}
+              </>
+            }
+            bgColor="bg-slate-100 text-black"
+            extraClasses="flex-grow"
+          />
+          <PatientQueue />
+        </div>
+        {/* <FeatureCard
+        title="Upcoming Bills"
+        content={
+          <div className="flex flex-wrap gap-4">
+            <div className="w-1/5 p-4 bg-white rounded-lg">
+              Studio Shodwe
+              <br />5 days left
+              <br />
+              $500
+            </div>
+            <div className="w-1/5 p-4 bg-white rounded-lg">
+              Larana Inc.
+              <br />5 days left
+              <br />
+              $500
+            </div>
+            <div className="w-1/5 p-4 bg-white rounded-lg">
+              New Bill 1<br />5 days left
+              <br />
+              $500
+            </div>
+            <div className="w-1/5 p-4 bg-white rounded-lg">
+              New Bill 2<br />5 days left
+              <br />
+              $500
+            </div>
+            <div className="w-1/5 p-4 bg-white rounded-lg">
+              New Bill 2<br />5 days left
+              <br />
+              $500
             </div>
           </div>
-
-          {/* Transfer and Request Buttons */}
-         
-        </div>
+        }
+        bgColor="bg-slate-100 text-black"
+        extraClasses="w-full"
+      /> */}
       </div>
     </>
   );

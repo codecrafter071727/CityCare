@@ -60,9 +60,10 @@ function HospitalSignin() {
                       password,
                     }
                   );
-                  console.log("this is the response bc", response.data.token);
+
+                  // console.log("this is the response bc", response.data);
                   localStorage.setItem("token", response.data.token);
-                  navigate("/hospital-dashboard");
+                  navigate(`/hospital-dashboard/${response.data.id}`);
                 } catch (error) {
                   console.error("An error occurred:", error);
                   console.log("Error response data:", error.response.data);
@@ -75,9 +76,15 @@ function HospitalSignin() {
             </button>
             <div className="flex justify-center">
               <div className="cursor-pointer ">Don't have an account? </div>
-              <div onClick={()=>{
-                navigate("/hospital-signup")
-              }} className="underline cursor-pointer"> Signup</div>
+              <div
+                onClick={() => {
+                  navigate("/hospital-signup");
+                }}
+                className="underline cursor-pointer"
+              >
+                {" "}
+                Signup
+              </div>
             </div>
           </div>
         </div>

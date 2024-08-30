@@ -79,6 +79,7 @@ router.post("/signin", async (req, res) => {
   }
   const token = zwt.sign({ hospitalId: hospital._id }, JWT_SECRET);
   res.status(200).json({
+    id: hospital._id,
     message: "Hospital logged in successfully",
     token,
   });
@@ -89,6 +90,7 @@ router.get("/gethospitals", async (req, res) => {
     const hospitals = await Hospital.find();
     res.status(200).json({
       hospitals: hospitals.map((hospital) => ({
+        id: hospital._id,
         hospitalName: hospital.hospitalName,
         email: hospital.email,
         contactNumber: hospital.contactNumber,
@@ -100,7 +102,32 @@ router.get("/gethospitals", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch hospitals" });
   }
 });
+// get one hospital
+router.get("/get-hospital/:hospitalId", async (req, res) => {
+  try {
+    const { hospitalId } = req.params;
 
+    // Use findById to fetch the hospital with the given ID
+    const hospital = await Hospital.findById(hospitalId);
+
+    if (!hospital) {
+      return res.status(404).json({
+        message: "Hospital not found",
+      });
+    }
+
+    // Respond with the hospital data
+    res.status(200).json({
+      hospital,
+    });
+  } catch (error) {
+    console.error("Error fetching hospital:", error);
+    res.status(500).json({
+      message: "Error fetching hospital",
+      error: error.message,
+    });
+  }
+});
 router.post("/add-doctor/:hospitalId", async (req, res) => {
   try {
     const { hospitalId } = req.params;
@@ -180,9 +207,7 @@ router.get("/get-doctors/:hospitalId", async (req, res) => {
       });
     }
 
-   
     res.status(200).json({
-      message: "Doctors found successfully",
       doctors: hospital.doctors,
     });
   } catch (error) {

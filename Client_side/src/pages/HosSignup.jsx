@@ -118,6 +118,8 @@ function HosSignup() {
                   );
                   //  console.log("this is the response bc", response.data.token);
                   localStorage.setItem("token", response.data.token);
+                  alert("hospital signed in successfull")
+                  navigate("/hospital-dashboard")
                 } catch (error) {
                   console.error("An error occurred:", error);
                   console.log("Error response data:", error.response.data);

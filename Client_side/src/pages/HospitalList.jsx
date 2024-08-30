@@ -1,12 +1,15 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import useHospitals from "../Hooks/Hospitals";
+import { useNavigate } from "react-router-dom";
+import Loader from "../components/Loader";
 
 function HospitalList() {
+  const navigate = useNavigate();
+ 
   const { hospitals, loading, error } = useHospitals();
-
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><Loader/></div>;
   }
 
   if (error) {
@@ -32,6 +35,15 @@ function HospitalList() {
               <p className="text-gray-600">
                 Number of Beds: {hospital.numberOfBeds}
               </p>
+              <div
+                onClick={() => {
+                  navigate(`/doctor-list/${hospital.id}`);
+                }}
+                className="text-xl cursor-pointer"
+              >
+                All doctors
+              </div>
+
               {hospital.facilities && hospital.facilities.length > 0 && (
                 <div>
                   <h4 className="mt-2 text-lg font-medium">Facilities:</h4>
