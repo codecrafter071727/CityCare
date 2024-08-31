@@ -117,7 +117,8 @@ function PatientSignup() {
                   }
                 );
                 alert("Appointment booked Successfully");
-                navigate("/patient-dashboard");
+           //     navigate("/patient-dashboard");
+           navigate("/")
                 //  console.log("this is the response bc", response.data.token);
                 localStorage.setItem("token", response.data.token);
               }}

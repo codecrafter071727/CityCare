@@ -11,6 +11,10 @@ import DoctorList from "./pages/DoctorList";
 import Dispensation from "./pages/Dispensation";
 import PatientDashboard from "./pages/PatientDashboard";
 import CancerCare from "./pages/CancerCare";
+import AllDoctorPages from "./pages/AllDoctorPages";
+import CardiacCare from "./DiseasePages/CardiacCare";
+import Neuroscience from "./DiseasePages/Neuroscience";
+import Gastrosciences from "./DiseasePages/Gastrosciences";
 
 function App() {
   return (
@@ -24,13 +28,23 @@ function App() {
             path="/hospital-dashboard/:hospitalId"
             element={<HospitalDashboard />}
           />
-          <Route path="/patient-signin/:hospitalId" element={<PatientSignin />} />
-          <Route path="/patient-signup/:hospitalId" element={<PatientSignup />} />
+          <Route
+            path="/patient-signin/:hospitalId"
+            element={<PatientSignin />}
+          />
+          <Route
+            path="/patient-signup/:hospitalId"
+            element={<PatientSignup />}
+          />
           <Route path="/hospital-list" element={<HospitalList />} />
           <Route path="/doctor-list/:hospitalId" element={<DoctorList />} />
           <Route path="/dispensation" element={<Dispensation />} />
           <Route path="/patient-dashboard" element={<PatientDashboard />} />
           <Route path="/cancer-care" element={<CancerCare />} />
+          <Route path="/all-doctors" element={<AllDoctorPages />} />
+          <Route path="/cardiac-care" element={<CardiacCare />} />
+          <Route path="/Neurosciences" element={<Neuroscience />} />
+          <Route path="/gastrosciences" element={<Gastrosciences/>} />
         </Routes>
       </BrowserRouter>
     </>

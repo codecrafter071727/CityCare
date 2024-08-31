@@ -20,7 +20,7 @@ function DoctorList() {
     <div>
       <Navbar />
       <div className="min-h-screen p-6 bg-gray-50 mt-14">
-        <h1 className="text-4xl font-bold text-center text-gray-1000 lg-8">
+        <h1 className="text-4xl font-bold text-center lg-8">
           Specialised Doctors
         </h1>
         <div class="box-border h-130 w-130 p-15 border-8 ..."></div>

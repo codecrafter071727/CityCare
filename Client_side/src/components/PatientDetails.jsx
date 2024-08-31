@@ -17,9 +17,7 @@ function PatientDetails() {
         <div className="text-2xl font-bold text-gray-800 sm:text-3xl">
           Patient
         </div>
-        <div className="text-lg font-bold text-gray-600">
-          Ms. Avi Shrivastava
-        </div>
+        <div className="text-lg font-bold text-gray-600">Avi Srivastava</div>
         <button className="mt-2 text-sm text-blue-500">VIEW PROFILE</button>
       </div>
 

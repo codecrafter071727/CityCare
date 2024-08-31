@@ -40,7 +40,9 @@ function MainBox() {
           <div className="mr-4">
             <img src={hospital} alt="" className="w-12 h-12" />
           </div>
-          <div>
+          <div onClick={()=>{
+            navigate("/all-doctors")
+          }}>
             <h3 className="text-xl font-bold">Doctors</h3>
             <p className="text-gray-600">Top experts for your health</p>
           </div>

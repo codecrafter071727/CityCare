@@ -52,9 +52,11 @@ function HospitalDashboard() {
       <Navbar />
 
       <div className="flex flex-col min-h-screen gap-4 p-8 mt-12 bg-gradient-to-r">
-        <div className="font-mono text-3xl">{hospitalData.hospital.hospitalName}</div>
+        <div className="font-mono text-3xl">
+          {hospitalData.hospital.hospitalName}
+        </div>
         <div className="flex flex-col w-full gap-4">
-          <FeatureCard
+          {/* <FeatureCard
             title="Total payCheque"
             content={
               <>
@@ -80,9 +82,9 @@ function HospitalDashboard() {
             }
             bgColor="bg-slate-100 text-black"
             extraClasses="flex-grow"
-          />
+          /> */}
           <PatientQueue patients={patients} />
-         
+
           <AddDoctor hospitalId={hospitalId} />
         </div>
       </div>

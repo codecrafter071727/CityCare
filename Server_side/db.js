@@ -81,7 +81,10 @@ const doctorSchema = new mongoose.Schema(
       default: "available",
     },
     doctorName: { type: String },
-    doctorSpecialization: { type: String, required: true },
+    doctorSpecialization: { type: String, },
+    doctorExperience: {type: String, },
+    doctorQualification: { type: String,},
+    doctorContactNumber: { type: String,  },
     doctorStatus: {
       type: String,
       enum: ["available", "on-duty", "off-duty"],

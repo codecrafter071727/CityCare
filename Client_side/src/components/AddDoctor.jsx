@@ -7,6 +7,9 @@ const AddDoctor = () => {
   const [doctorName, setDoctorName] = useState("");
   const [doctorSpecialization, setDoctorSpecialization] = useState("");
   const [doctorStatus, setDoctorStatus] = useState("");
+  const [doctorExperience, setExperience] = useState("");
+  const [doctorQualification, setQualification] = useState("");
+  const [doctorContactNumber, setNumber] = useState("");
 
   const handleAddDoctor = async (e) => {
     e.preventDefault();
@@ -16,7 +19,9 @@ const AddDoctor = () => {
         {
           doctorName,
           doctorSpecialization,
-         
+          doctorExperience,
+          doctorQualification,
+          doctorContactNumber,
         }
       );
       alert("Doctor added successfully!");
@@ -61,10 +66,45 @@ const AddDoctor = () => {
         </div>
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
+            Experience
+          </label>
+          <input
+            type="text"
+            onChange={(e) => setExperience(e.target.value)}
+            placeholder="Enter specialization"
+            className="block w-full p-2 mt-1 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Contact Number
+          </label>
+          <input
+            type="text"
+            onChange={(e) => setNumber(e.target.value)}
+            placeholder="Enter specialization"
+            className="block w-full p-2 mt-1 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Qualification
+          </label>
+          <input
+            type="text"
+            onChange={(e) => setQualification(e.target.value)}
+            placeholder="Enter specialization"
+            className="block w-full p-2 mt-1 border border-gray-300 rounded-md"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
             Status
           </label>
           <select
-            value={doctorStatus}
             onChange={(e) => setDoctorStatus(e.target.value)}
             className="block w-full p-2 mt-1 border border-gray-300 rounded-md"
             required

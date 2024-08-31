@@ -1,7 +1,13 @@
 const express = require("express");
 const zod = require("zod");
 const zwt = require("jsonwebtoken");
-const { Hospital, Doctor, Availability, Patient, Appointment } = require("../db");
+const {
+  Hospital,
+  Doctor,
+  Availability,
+  Patient,
+  Appointment,
+} = require("../db");
 const { JWT_SECRET } = require("../configuration");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
@@ -127,10 +133,29 @@ router.get("/get-hospital/:hospitalId", async (req, res) => {
     });
   }
 });
+router.get("/get-all-doctors", async (req, res) => {
+  const doctors = await Doctor.find();
+  res.status(200).json({
+    doctors: doctors.map((doctor) => ({
+      id: doctor._id,
+      name: doctor.doctorName,
+
+      // contactNumber: doctor.contactNumber,
+    })),
+  });
+});
+
 router.post("/add-doctor/:hospitalId", async (req, res) => {
   try {
     const { hospitalId } = req.params;
-    const { doctorName, doctorSpecialization, doctorStatus } = req.body;
+    const {
+      doctorName,
+      doctorSpecialization,
+      doctorStatus,
+      doctorExperience,
+      doctorQualification,
+      doctorContactNumber,
+    } = req.body;
 
     const hospital = await Hospital.findById(hospitalId);
     if (!hospital) {
@@ -142,6 +167,9 @@ router.post("/add-doctor/:hospitalId", async (req, res) => {
       doctorName: doctorName,
       doctorSpecialization: doctorSpecialization,
       doctorStatus: doctorStatus,
+      doctorExperience: doctorExperience,
+      doctorQualification: doctorQualification,
+      doctorContactNumber: doctorContactNumber,
     });
 
     const savedDoctor = await newDoctor.save();
@@ -274,12 +302,10 @@ router.post("/:hospitalId/appointments", async (req, res) => {
       await hospital.save();
     }
 
-    res
-      .status(201)
-      .json({
-        message: "Appointment created successfully",
-        appointment: newAppointment,
-      });
+    res.status(201).json({
+      message: "Appointment created successfully",
+      appointment: newAppointment,
+    });
   } catch (error) {
     console.error("Error adding appointment:", error);
     res.status(500).json({ message: "Internal Server Error", error });
