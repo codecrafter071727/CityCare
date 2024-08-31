@@ -1,7 +1,7 @@
 const express = require("express");
 const zod = require("zod");
 const zwt = require("jsonwebtoken");
-const { Hospital, Doctor, Availability } = require("../db");
+const { Hospital, Doctor, Availability, Patient, Appointment } = require("../db");
 const { JWT_SECRET } = require("../configuration");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
@@ -215,5 +215,73 @@ router.get("/get-doctors/:hospitalId", async (req, res) => {
       message: "Error while loading doctors",
       error: error.message,
     });
+  }
+});
+
+router.get("/get-patients/:hospitalId", async (req, res) => {
+  try {
+    const { hospitalId } = req.params;
+    const hospital = await Hospital.findById(hospitalId).populate("patients");
+
+    if (!hospital) {
+      return res.status(404).json({
+        message: "Hospital not found",
+      });
+    }
+
+    res.status(200).json({
+      patients: hospital.patients,
+    });
+  } catch (error) {
+    console.error("Error while loading patients:", error);
+    res.status(500).json({
+      message: "Error while loading patients",
+      error: error.message,
+    });
+  }
+});
+
+router.post("/:hospitalId/appointments", async (req, res) => {
+  const { hospitalId } = req.params;
+  const { doctorId, patientId, appointmentDate } = req.body;
+
+  try {
+    // Check if the hospital, doctor, and patient exist
+    const hospital = await Hospital.findById(hospitalId);
+    const doctor = await Doctor.findById(doctorId);
+    const patient = await Patient.findById(patientId);
+
+    if (!hospital || !doctor || !patient) {
+      return res
+        .status(404)
+        .json({ message: "Hospital, Doctor, or Patient not found" });
+    }
+
+    // Create a new appointment
+    const newAppointment = new Appointment({
+      patient: patientId,
+      doctor: doctorId,
+      hospital: hospitalId,
+      appointmentDate: new Date(appointmentDate),
+      status: "pending",
+    });
+
+    await newAppointment.save();
+
+    // Add the patient to the hospital's patients list if not already present
+    if (!hospital.patients.includes(patientId)) {
+      hospital.patients.push(patientId);
+      await hospital.save();
+    }
+
+    res
+      .status(201)
+      .json({
+        message: "Appointment created successfully",
+        appointment: newAppointment,
+      });
+  } catch (error) {
+    console.error("Error adding appointment:", error);
+    res.status(500).json({ message: "Internal Server Error", error });
   }
 });

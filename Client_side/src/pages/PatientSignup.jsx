@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function PatientSignup() {
+  const hospitalId = useParams();
+  const id = hospitalId.hospitalId;
+ // console.log("new: ", id);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -104,7 +107,7 @@ function PatientSignup() {
             <button
               onClick={async () => {
                 const response = await axios.post(
-                  "http://localhost:3000/api/v1/patient/signup",
+                  `http://localhost:3000/api/v1/patient/signup/${id}`,
                   {
                     name,
                     email,

@@ -5,6 +5,7 @@ import SearchBarNew from "../components/SearchBarNew";
 import PatientDetails from "../components/PatientDetails";
 import PastTreatments from "../components/PastTreatments";
 import BMICalculator from "../components/BMICalculator";
+import InputBar from "../components/InputBar";
 
 function PatientDashboard() {
   const treatmentsData = [
@@ -19,7 +20,7 @@ function PatientDashboard() {
         <SideBar />
         <main className="flex-1 p-2 ">
           <div className="p-2 ">
-            <SearchBarNew />
+            <InputBar/>
           </div>
 
           <div className="p-2 ">

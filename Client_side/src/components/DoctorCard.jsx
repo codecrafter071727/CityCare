@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function DoctorCard({ doctors }) {
+function DoctorCard({ doctors, hospitalId }) {
+  const navigate = useNavigate();
   return (
     <>
       <div className="bg-white rounded-lg shadow-lg ; p-3 border-style: solid; w-full sm:w-80 hover:shadow-lg transition-shadow duration-300 box-shadow: 9px 10px;">
@@ -29,7 +31,12 @@ function DoctorCard({ doctors }) {
           <button className="px-4 py-2 text-white transition-colors duration-300 bg-pink-800 rounded hover:bg-pink-600">
             View Full Profile
           </button>
-          <button className="px-4 py-2 text-gray-700 transition-colors duration-300 bg-gray-300 rounded hover:bg-gray-300">
+          <button
+            onClick={() => {
+              navigate(`/patient-signup/${hospitalId}`);
+            }}
+            className="px-4 py-2 text-gray-700 transition-colors duration-300 bg-gray-300 rounded hover:bg-gray-300"
+          >
             Book An Appointment
           </button>
         </div>

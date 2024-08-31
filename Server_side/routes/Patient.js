@@ -3,7 +3,7 @@ const express = require("express");
 
 const router = express.Router();
 const zod = require("zod");
-const { Patient } = require("../db");
+const { Patient, Hospital } = require("../db");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../configuration");
 // const { authMiddleware } = require("../middleware");
@@ -17,55 +17,96 @@ const { JWT_SECRET } = require("../configuration");
 //   medicalHistory: zod.string(),
 // });
 
-router.post("/signup", async (req, res) => {
+// router.post("/signup", async (req, res) => {
+//   const { hospitalId } = req.params;
+//   const { email, name, phoneNumber, password, age, medicalHistory } = req.body;
+
+//   const existingPatient = await Patient.findOne({
+//     email: req.body.email,
+//   });
+
+//   if (existingPatient) {
+//     return res.status(411).json({
+//       message: "Email already exists",
+//     });
+//   }
+
+//   const patient = await Patient.create({
+//     email,
+//     name,
+//     phoneNumber,
+//     password,
+//     age,
+//     medicalHistory,
+//   });
+//   const patientId = patient._id;
+
+//   const token = jwt.sign(
+//     {
+//       patientId,
+//     },
+//     JWT_SECRET
+//   );
+//   const hospital = await Hospital.findById(hospitalId);
+//   if (!hospital) {
+//     return res.status(404).json({ message: "Hospital not found" });
+//   }
+
+//   hospital.patients.push(patient._id);
+//   await hospital.save();
+//   res.json({
+//     message: "Patient created successfully",
+//     token: token,
+//   });
+// });
+
+router.post("/signup/:hospitalId", async (req, res) => {
+  const { hospitalId } = req.params;
   const { email, name, phoneNumber, password, age, medicalHistory } = req.body;
-  // const { success } = signupBody.safeParse(req.body);
-  // if (!success) {
-  //   return res.status(411).json({
-  //     message: " Incorrect kind of inputs",
-  //   });
-  // }
 
-  const existingPatient = await Patient.findOne({
-    email: req.body.email,
-  });
+  try {
+    const existingPatient = await Patient.findOne({ email });
+    if (existingPatient) {
+      return res.status(409).json({
+        message: "Email already exists",
+      });
+    }
 
-  if (existingPatient) {
-    return res.status(411).json({
-      message: "Email already exists",
+    const patient = await Patient.create({
+      email,
+      name,
+      phoneNumber,
+      password,
+      age,
+      medicalHistory,
+    });
+
+    const token = jwt.sign({ patientId: patient._id, hospitalId }, JWT_SECRET);
+
+    res.status(201).json({
+      message: "Patient created successfully",
+      token: token,
+    });
+
+    const hospital = await Hospital.findById(hospitalId);
+    if (!hospital) {
+      return res.status(404).json({ message: "Hospital not found" });
+    }
+
+    hospital.patients.push(patient._id);
+    await hospital.save();
+  } catch (error) {
+    console.error("Error during signup:", error);
+    res.status(500).json({
+      message: "Error signing up patient",
+      error: error.message,
     });
   }
-
-  const patient = await Patient.create({
-    email,
-    name,
-    phoneNumber,
-    password,
-    age,
-    medicalHistory,
-  });
-  const patientId = patient._id;
-
-  const token = jwt.sign(
-    {
-      patientId,
-    },
-    JWT_SECRET
-  );
-
-  res.json({
-    message: "Patient created successfully",
-    token: token,
-  });
-});
-
-const signinBody = zod.object({
-  email: zod.string().email(),
-  password: zod.string(),
 });
 
 router.post("/signin", async (req, res) => {
   try {
+    const hospitalId = req.params;
     const { email, password } = req.body;
     const { success } = signinBody.safeParse(req.body);
     if (!success) {
@@ -86,7 +127,13 @@ router.post("/signin", async (req, res) => {
         },
         JWT_SECRET
       );
+      const hospital = await Hospital.findById(hospitalId);
+      if (!hospital) {
+        return res.status(404).json({ message: "Hospital not found" });
+      }
 
+      hospital.patients.push(patient._id);
+      await hospital.save();
       res.json({
         message: "patient singed in successfully",
         token: token,

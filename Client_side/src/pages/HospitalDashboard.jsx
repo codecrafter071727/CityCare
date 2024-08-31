@@ -21,15 +21,16 @@ const PatientQueue = () => (
             <th className="text-left">Name</th>
             <th className="text-left">Date</th>
             <th className="text-left">Amount</th>
-            <th className="text-left">Status</th>
+            {/* <th className="text-left">Status</th> */}
+            <th className="text-left">Doctor Name</th>
           </tr>
         </thead>
       </table>
-      <div className="flex gap-x-12">
+      <div className="flex gap-x-8">
         <p>vishu</p>
         <p>24 august</p>
         <p>300</p>
-        <p className="ml-8">coming</p>
+       <p className="ml-4">doctor name</p>
       </div>
     </div>
   </div>
@@ -64,13 +65,10 @@ function HospitalDashboard() {
   return (
     <>
       <Navbar />
-      
+
       <div className="flex flex-wrap min-h-screen gap-4 p-8 mt-12 bg-gradient-to-r ">
-      <div className="text-xl">
-      {hospitalData.hospital.hospitalName}
-      </div>
+        <div className="text-xl">{hospitalData.hospital.hospitalName}</div>
         <div className="flex flex-col w-full gap-4 lg:flex-row">
-          
           <FeatureCard
             title="Total payCheque"
             content={

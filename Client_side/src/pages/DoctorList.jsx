@@ -2,8 +2,11 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import DoctorCard from "../components/DoctorCard";
 import useDoctors from "../Hooks/Doctors";
+import { useParams } from "react-router-dom";
 
 function DoctorList() {
+  const { hospitalId } = useParams();
+  console.log(hospitalId)
   const { doctors, loading, error } = useDoctors();
 
   if (loading) {
@@ -24,7 +27,7 @@ function DoctorList() {
         <div className="flex flex-wrap justify-center gap-6">
           <div></div>
           {doctors.map((doctors) => (
-            <DoctorCard doctors={doctors} />
+            <DoctorCard doctors={doctors} hospitalId={hospitalId} />
           ))}
         </div>
       </div>

@@ -8,11 +8,11 @@ mongoose.connect(
 
 const patientSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    phoneNumber: { type: String, required: true },
-    age: { type: Number, required: true },
+    name: { type: String },
+    email: { type: String, unique: true },
+    password: { type: String },
+    phoneNumber: { type: String },
+    age: { type: Number },
     gender: { type: String, enum: ["male", "female", "Other"] },
     medicalHistory: { type: String },
   },
@@ -63,10 +63,10 @@ const hospitalSchema = new mongoose.Schema(
     beds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Availability" }],
     doctors: [{ type: mongoose.Schema.Types.ObjectId, ref: "Doctor" }],
     facilities: [String],
+    patients: [{ type: mongoose.Schema.Types.ObjectId, ref: "Patient" }], 
   },
   { timestamps: true }
 );
-
 const doctorSchema = new mongoose.Schema(
   {
     hospital: {
@@ -119,206 +119,3 @@ const Patient = mongoose.model("Patient", patientSchema);
 const Appointment = mongoose.model("Appointment", appointmentSchema);
 
 module.exports = { Hospital, Doctor, Availability, Patient, Appointment };
-
-// const mongoose = require("mongoose");
-
-// mongoose.connect(
-//   "mongodb+srv://vishurizz01:RzfgxKDYAOSSooKq@cluster0.7ozbuch.mongodb.net/Hospital_DB"
-// );
-
-// const patientSchema = new mongoose.Schema({
-//   name: {
-//     type: String,
-//     required: true,
-//   },
-//   email: {
-//     type: String,
-//     required: true,
-//     unique: true,
-//   },
-//   password: {
-//     type: String,
-//     required: true,
-//   },
-//   phoneNumber: {
-//     type: String,
-//     required: true,
-//   },
-//   age: {
-//     type: Number,
-//     required: true,
-//   },
-//   gender: {
-//     type: String,
-//     enum: ["Male", "Female", "Other"],
-//   },
-//   medicalHistory: {
-//     type: String,
-//   },
-// });
-// // appointement schema
-
-// const appointmentSchema = new mongoose.Schema({
-//   patient: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Patient",
-//     required: true,
-//   },
-//   doctor: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Doctor",
-//     required: true,
-//   },
-//   hospital: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Hospital",
-//     required: true,
-//   },
-//   appointmentDate: {
-//     type: Date,
-//     required: true,
-//   },
-//   status: {
-//     type: String,
-//     enum: ["pending", "confirmed", "canceled"],
-//     default: "pending",
-//   },
-// });
-
-// // hospital model
-// const hospitalSchema = new mongoose.Schema({
-//   hospitalName: {
-//     type: String,
-//     required: true,
-//     unique: true,
-//   },
-//   email: {
-//     type: String,
-//     required: true,
-//     unique: true,
-//   },
-//   password: {
-//     type: String,
-//     required: true,
-//   },
-//   contactNumber: {
-//     type: String,
-//     required: true,
-//   },
-//   address: {
-//     type: String,
-//     required: true,
-//   },
-//   // registrationNumber: {
-//   //   type: String,
-//   // },
-//   // website: {
-//   //   type: String,
-//   // },
-//   hospitalType: {
-//     type: String,
-//     enum: ["Public", "Private", "Clinic"],
-//     default: "Public",
-//   },
-//   numberOfBeds: {
-//     type: Number,
-//   },
-//   emergencyServices: {
-//     type: Boolean,
-//     default: false,
-//   },
-//   beds: [
-//     {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "Availability",
-//     },
-//   ],
-//   doctors: [
-//     {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "Doctor",
-//     },
-//   ],
-//   facilities: [String],
-// });
-// // doctors and availability schema
-
-// const doctorSchema = new mongoose.Schema({
-//   hospital: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Hospital",
-//     required: true,
-//   },
-//   // cabinNumber: {
-//   //   type: String,
-//   // },
-//   bedStatus: {
-//     type: String,
-//     enum: ["available", "occupied", "reserved"],
-//     default: "available",
-//   },
-//   doctorName: {
-//     type: String,
-//   },
-//   doctorSpecialization: {
-//     type: String,
-//   },
-//   doctorStatus: {
-//     type: String,
-//     enum: ["available", "on-duty", "off-duty"],
-//     default: "available",
-//   },
-//   lastUpdated: {
-//     type: Date,
-//     default: Date.now,
-//   },
-//   availability: [
-//     {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "Availability",
-//     },
-//   ],
-// });
-// const availabilitySchema = new mongoose.Schema({
-//   hospital: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Hospital",
-//     required: true,
-//   },
-//   doctor: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "Doctor",
-//     required: true,
-//   },
-//   isAvailable: {
-//     type: Boolean,
-//     required: true,
-//     default: true,
-//   },
-//   arrivalTime: {
-//     type: String,
-//     // required: true,
-//   },
-//   departureTime: {
-//     type: String,
-//     // required: true,
-//   },
-//   lastUpdated: {
-//     type: Date,
-//     default: Date.now,
-//   },
-// });
-
-// const Hospital = mongoose.model("Hospital", hospitalSchema);
-// const Doctor = mongoose.model("doctors", doctorSchema);
-// const Availability = mongoose.model("availability", availabilitySchema);
-// const Patient = (module.exports = mongoose.model("Patient", patientSchema));
-// const Appointment = mongoose.model("Appointment", appointmentSchema);
-
-// module.exports = {
-//   Hospital,
-//   Doctor,
-//   Availability,
-//   Patient,
-//   Appointment,
-// };

@@ -10,6 +10,7 @@ import HospitalList from "./pages/HospitalList";
 import DoctorList from "./pages/DoctorList";
 import Dispensation from "./pages/Dispensation";
 import PatientDashboard from "./pages/PatientDashboard";
+import CancerCare from "./pages/CancerCare";
 
 function App() {
   return (
@@ -23,12 +24,13 @@ function App() {
             path="/hospital-dashboard/:hospitalId"
             element={<HospitalDashboard />}
           />
-          <Route path="/patient-signin" element={<PatientSignin />} />
-          <Route path="/patient-signup" element={<PatientSignup />} />
+          <Route path="/patient-signin/:hospitalId" element={<PatientSignin />} />
+          <Route path="/patient-signup/:hospitalId" element={<PatientSignup />} />
           <Route path="/hospital-list" element={<HospitalList />} />
           <Route path="/doctor-list/:hospitalId" element={<DoctorList />} />
           <Route path="/dispensation" element={<Dispensation />} />
           <Route path="/patient-dashboard" element={<PatientDashboard />} />
+          <Route path="/cancer-care" element={<CancerCare />} />
         </Routes>
       </BrowserRouter>
     </>
