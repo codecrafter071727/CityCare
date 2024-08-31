@@ -11,11 +11,14 @@ const AddDoctor = () => {
   const handleAddDoctor = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/api/v1/hospital/add-doctor/${hospitalId}`, {
-        doctorName,
-        doctorSpecialization,
-        doctorStatus,
-      });
+      const response = await axios.post(
+        `http://localhost:3000/api/v1/hospital/add-doctor/${hospitalId}`,
+        {
+          doctorName,
+          doctorSpecialization,
+         
+        }
+      );
       alert("Doctor added successfully!");
       setDoctorName("");
       setDoctorSpecialization("");
@@ -27,11 +30,13 @@ const AddDoctor = () => {
   };
 
   return (
-    <div className="max-w-md p-6 mx-auto mt-10 bg-white rounded-md shadow-md">
+    <div className="p-6 mx-auto mt-10 bg-white rounded-md shadow-md w-[40rem]">
       <h2 className="mb-4 text-2xl font-bold text-center">Add Doctor</h2>
       <form onSubmit={handleAddDoctor}>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Doctor Name</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Doctor Name
+          </label>
           <input
             type="text"
             value={doctorName}
@@ -42,7 +47,9 @@ const AddDoctor = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Specialization</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Specialization
+          </label>
           <input
             type="text"
             value={doctorSpecialization}
@@ -53,7 +60,9 @@ const AddDoctor = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Status</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Status
+          </label>
           <select
             value={doctorStatus}
             onChange={(e) => setDoctorStatus(e.target.value)}
