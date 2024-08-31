@@ -4,41 +4,28 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/Loader";
 
-const FeatureCard = ({ title, content }) => (
-  <div className={`p-4 w-[50rem] rounded-lg bg-slate-100 `}>
-    <h3 className="mb-4 text-xl font-bold">{title}</h3>
-    <div>{content}</div>
-  </div>
-);
-
-const PatientQueue = () => (
-  <div className="flex flex-col h-screen p-4 text-black rounded-lg bg-slate-100 w-[33rem]">
-    <h3 className="mb-4 text-xl font-bold text-black">Patient Queue</h3>
-    <div className="flex-grow p-4 overflow-y-scroll bg-white rounded-lg">
-      <table className="w-full">
-        <thead className="sticky top-0 bg-white">
-          <tr>
-            <th className="text-left">Name</th>
-            <th className="text-left">Date</th>
-            <th className="text-left">Amount</th>
-            {/* <th className="text-left">Status</th> */}
-            <th className="text-left">Doctor Name</th>
-          </tr>
-        </thead>
-      </table>
-      <div className="flex gap-x-8">
-        <p>vishu</p>
-        <p>24 august</p>
-        <p>300</p>
-       <p className="ml-4">doctor name</p>
-      </div>
-    </div>
-  </div>
-);
-
 function HospitalDashboard() {
-  const [hospitalData, setHospitalData] = useState(null); // Initialize to null or an empty object
+  const [patients, setPatients] = useState([]);
+  const [hospitalData, setHospitalData] = useState(null);
   const { hospitalId } = useParams();
+  // console.log(patients);
+  // console.log(hospitalData);
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/hospital/get-patients/${hospitalId}`
+        );
+        setPatients(response.data.patients);
+        //  console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      }
+    };
+
+    fetchPatients();
+  }, [hospitalId]);
 
   useEffect(() => {
     const getHospital = async () => {
@@ -96,11 +83,48 @@ function HospitalDashboard() {
             bgColor="bg-slate-100 text-black"
             extraClasses="flex-grow"
           />
-          <PatientQueue />
+          <PatientQueue patients={patients} />
         </div>
       </div>
     </>
   );
 }
+
+const FeatureCard = ({ title, content }) => (
+  <div className={`p-4 w-[50rem] rounded-lg bg-slate-100 `}>
+    <h3 className="mb-4 text-xl font-bold">{title}</h3>
+    <div>{content}</div>
+  </div>
+);
+
+const PatientQueue = ({ patients }) => (
+  <div className="flex flex-col h-screen p-4 text-black rounded-lg bg-slate-100 w-[33rem]">
+    <h3 className="mb-4 text-xl font-bold text-black">Patient Queue</h3>
+    <div className="flex-grow p-4 overflow-y-scroll bg-white rounded-lg">
+      <table className="w-full">
+        <thead className="sticky top-0 bg-white">
+          <tr>
+            <th className="text-left">Name</th>
+            <th className="text-left">Date</th>
+            <th className="text-left">Amount</th>
+            <th className="text-left">Doctor Name</th>
+          </tr>
+        </thead>
+        <tbody className="">
+          {patients.map((patient, index) => (
+            <tr key={index} className="shadow-sm rounded-xl hover:bg-gray-100">
+              <td className="py-2">{patient.name}</td>
+              <td className="py-2">
+                {new Date(patient.dateAdded).toLocaleDateString()}
+              </td>
+              <td className="py-2">OPD/500</td>
+              <td className="py-2">{patient.doctorName}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
 
 export default HospitalDashboard;

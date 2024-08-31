@@ -15,6 +15,7 @@ const patientSchema = new mongoose.Schema(
     age: { type: Number },
     gender: { type: String, enum: ["male", "female", "Other"] },
     medicalHistory: { type: String },
+    dateAdded: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
@@ -63,7 +64,7 @@ const hospitalSchema = new mongoose.Schema(
     beds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Availability" }],
     doctors: [{ type: mongoose.Schema.Types.ObjectId, ref: "Doctor" }],
     facilities: [String],
-    patients: [{ type: mongoose.Schema.Types.ObjectId, ref: "Patient" }], 
+    patients: [{ type: mongoose.Schema.Types.ObjectId, ref: "Patient" }],
   },
   { timestamps: true }
 );

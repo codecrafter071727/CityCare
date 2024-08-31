@@ -116,7 +116,7 @@ function PatientSignup() {
                     age,
                   }
                 );
-                alert("patient singed up successfully");
+                alert("Appointment booked Successfully");
                 navigate("/patient-dashboard");
                 //  console.log("this is the response bc", response.data.token);
                 localStorage.setItem("token", response.data.token);
