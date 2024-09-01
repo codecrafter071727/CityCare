@@ -16,6 +16,7 @@ import CardiacCare from "./DiseasePages/CardiacCare";
 import Neuroscience from "./DiseasePages/Neuroscience";
 import Gastrosciences from "./DiseasePages/Gastrosciences";
 import SymptomChecker from "./pages/SysmptomApi";
+import SpecialDoctors from "./pages/SpecialDoctors";
 
 function App() {
   return (
@@ -47,6 +48,10 @@ function App() {
           <Route path="/Neurosciences" element={<Neuroscience />} />
           <Route path="/gastrosciences" element={<Gastrosciences />} />
           <Route path="/sysmptoms-api" element={<SymptomChecker />} />
+          <Route
+            path="/special-doctors/:specialisation"
+            element={<SpecialDoctors />}
+          />
         </Routes>
       </BrowserRouter>
     </>

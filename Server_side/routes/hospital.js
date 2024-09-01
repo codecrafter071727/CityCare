@@ -324,3 +324,26 @@ router.post("/:hospitalId/appointments", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error", error });
   }
 });
+// geting specialised doctors
+
+router.get("/doctors/:specialization", async (req, res) => {
+  const { specialization } = req.params;
+
+  try {
+    const doctors = await Doctor.find({ doctorSpecialization: specialization });
+
+    if (doctors.length === 0) {
+      return res.status(404).json({
+        message: "No doctors found with the specified specialization",
+      });
+    }
+
+    res.status(200).json({
+      message: `Doctors with specialization: ${specialization}`,
+      doctors: doctors,
+    });
+  } catch (error) {
+    console.error("Error finding doctors:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});

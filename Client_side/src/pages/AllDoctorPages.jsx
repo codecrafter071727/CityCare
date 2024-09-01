@@ -4,6 +4,7 @@ import axios from "axios";
 
 function AllDoctorPages() {
   const [doctors, setDoctors] = useState([]);
+ 
 
   useEffect(() => {
     async function getDoctor() {
@@ -36,10 +37,14 @@ function AllDoctorPages() {
                   {doctor.name} {/* Ensure this matches the correct property */}
                 </h2>
                 <p className="capitalize text-mg text-slate-500">
-                  {doctor.doctorSpecialization}
+                 Specialization: {doctor.specialisation
+                  }
                 </p>
                 <p className="capitalize text-mg text-slate-500">
-                  {doctor.doctorStatus}
+                 Qulaification: {doctor.qualification}
+                </p>
+                <p className="capitalize text-mg text-slate-500">
+                 Experience: {doctor.experience}
                 </p>
               </div>
             </div>

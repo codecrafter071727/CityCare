@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
 const symptomDatabase = {
   fever: { condition: "Common flu or cold.", doctor: "General Physician" },
   cough: {
     condition: "Possible respiratory infection.",
-    doctor: "Pulmonologist",
+    doctor: "pulmonologist",
   },
   headache: {
     condition: "Could be a migraine or tension headache.",
-    doctor: "Neurologist",
+    doctor: "neurologist",
   },
   "sore throat": {
     condition: "May indicate a throat infection.",
@@ -16,39 +19,39 @@ const symptomDatabase = {
   },
   fatigue: {
     condition: "Can be due to various factors, including lack of sleep.",
-    doctor: "General Physician",
+    doctor: "general-physician",
   },
   "chest pain": {
     condition: "Could be related to heart issues or muscular strain.",
-    doctor: "Cardiologist",
+    doctor: "cardiologist",
   },
   "shortness of breath": {
     condition: "May indicate respiratory issues or heart conditions.",
-    doctor: "Pulmonologist",
+    doctor: "pulmonologist",
   },
   nausea: {
     condition: "Can be caused by digestive issues or infections.",
-    doctor: "Gastroenterologist",
+    doctor: "gastroenterologist",
   },
   dizziness: {
     condition: "Could be related to inner ear issues or low blood pressure.",
-    doctor: "Neurologist",
+    doctor: "neurologist",
   },
   "joint pain": {
     condition: "Could be arthritis or other musculoskeletal issues.",
-    doctor: "Rheumatologist",
+    doctor: "rheumatologist",
   },
   rashes: {
     condition: "Can be due to various skin conditions or allergies.",
-    doctor: "Dermatologist",
+    doctor: "dermatologist",
   },
   "abdominal pain": {
     condition: "May indicate gastrointestinal issues.",
-    doctor: "Gastroenterologist",
+    doctor: "gastroenterologist",
   },
   "swollen legs": {
     condition: "Could be related to circulatory issues or kidney problems.",
-    doctor: "Cardiologist",
+    doctor: "cardiologist",
   },
   insomnia: {
     condition: "May be caused by stress, anxiety, or sleep disorders.",
@@ -57,6 +60,7 @@ const symptomDatabase = {
 };
 
 const SymptomChecker = () => {
+  const navigate = useNavigate();
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [result, setResult] = useState("");
   const [doctor, setDoctor] = useState("");
@@ -86,48 +90,61 @@ const SymptomChecker = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl p-8 mx-auto bg-white rounded-lg shadow-md">
-      <h2 className="mb-6 text-3xl font-extrabold text-gray-800">
-        Symptom Checker
-      </h2>
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 gap-4 mb-6 md:grid-cols-2">
-          {Object.keys(symptomDatabase).map((symptom) => (
-            <div
-              key={symptom}
-              className={`p-4 border rounded-lg cursor-pointer transition duration-200 ease-in-out transform
+    <>
+      <Navbar />
+      <div className="w-full p-8 mx-auto mt-12 bg-white rounded-lg shadow-md max-w-8xl">
+        <h2 className="mb-6 text-3xl font-extrabold text-gray-800">
+          Symptom Checker
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <div className="grid grid-cols-2 gap-4 mb-6 md:grid-cols-5">
+            {Object.keys(symptomDatabase).map((symptom) => (
+              <div
+                key={symptom}
+                className={`p-4 border rounded-lg cursor-pointer transition duration-200 ease-in-out transform
                             ${
                               selectedSymptoms.includes(symptom)
                                 ? "bg-blue-400 text-white border-blue-500"
                                 : "bg-gray-50 border-gray-300"
                             }
                             hover:bg-blue-300 hover:border-blue-400 hover:scale-105`}
-              onClick={() => handleSymptomClick(symptom)}
-            >
-              <p className="text-lg font-medium">{symptom}</p>
+                onClick={() => handleSymptomClick(symptom)}
+              >
+                <p className="text-lg font-medium">{symptom}</p>
+              </div>
+            ))}
+          </div>
+          <button
+            type="submit"
+            className="w-full px-6 py-3 text-white bg-blue-600 rounded-lg shadow md:w-auto hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            Check Symptoms
+          </button>
+        </form>
+        {result && (
+          <div className="flex">
+            <div className="p-6 mt-8 w-[100%] border-l-4 border-green-400 rounded-md shadow-md bg-green-50">
+              <h3 className="text-lg font-semibold text-green-800">
+                Possible Condition:
+              </h3>
+              <p className="text-gray-700">{result}</p>
+              <h4 className="mt-4 font-semibold text-green-800 text-md">
+                Consult to this Doctor speacialisation:
+              </h4>
+              <p className="text-gray-700">{doctor}</p>
             </div>
-          ))}
-        </div>
-        <button
-          type="submit"
-          className="w-full px-6 py-3 text-white bg-blue-600 rounded-lg shadow md:w-auto hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          Check Symptoms
-        </button>
-      </form>
-      {result && (
-        <div className="p-6 mt-8 border-l-4 border-green-400 rounded-md shadow-md bg-green-50">
-          <h3 className="text-lg font-semibold text-green-800">
-            Possible Condition:
-          </h3>
-          <p className="text-gray-700">{result}</p>
-          <h4 className="mt-4 font-semibold text-green-800 text-md">
-            Consult:
-          </h4>
-          <p className="text-gray-700">{doctor}</p>
-        </div>
-      )}
-    </div>
+            <div
+              onClick={() => {
+                navigate(`/special-doctors/${doctor}`);
+              }}
+              className="w-full p-6 mt-8 text-xl border-green-400 rounded-md bg-green-50"
+            >
+              consult to your: <Button doctor={doctor} />
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

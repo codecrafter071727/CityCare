@@ -68,6 +68,18 @@ const hospitalSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+const neuroSchema = new mongoose.Schema({
+  doctorName: { type: String },
+  doctorSpecialization: { type: String },
+  doctorExperience: { type: String },
+  doctorQualification: { type: String },
+  doctorContactNumber: { type: String },
+  doctorStatus: {
+    type: String,
+    enum: ["available", "on-duty", "off-duty"],
+    default: "available",
+  },
+});
 const doctorSchema = new mongoose.Schema(
   {
     hospital: {
@@ -81,10 +93,10 @@ const doctorSchema = new mongoose.Schema(
       default: "available",
     },
     doctorName: { type: String },
-    doctorSpecialization: { type: String, },
-    doctorExperience: {type: String, },
-    doctorQualification: { type: String,},
-    doctorContactNumber: { type: String,  },
+    doctorSpecialization: { type: String },
+    doctorExperience: { type: String },
+    doctorQualification: { type: String },
+    doctorContactNumber: { type: String },
     doctorStatus: {
       type: String,
       enum: ["available", "on-duty", "off-duty"],
@@ -121,5 +133,13 @@ const Doctor = mongoose.model("Doctor", doctorSchema);
 const Availability = mongoose.model("Availability", availabilitySchema);
 const Patient = mongoose.model("Patient", patientSchema);
 const Appointment = mongoose.model("Appointment", appointmentSchema);
+const NeuroSchema = mongoose.model("Neuro", neuroSchema);
 
-module.exports = { Hospital, Doctor, Availability, Patient, Appointment };
+module.exports = {
+  Hospital,
+  Doctor,
+  Availability,
+  Patient,
+  Appointment,
+  NeuroSchema,
+};
