@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FaHospitalUser } from "react-icons/fa";
 import GlowingButton from "./GlowingButton";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -8,6 +8,13 @@ import { useNavigate } from "react-router-dom";
 import ContactUs from "./ContactUs";
 
 function Navbar() {
+  const bottomRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -38,7 +45,13 @@ function Navbar() {
               }}
               className="duration-100 hover:scale-110 "
             ></div>
-            <div className="duration-100 hover:scale-110"> Contact Us </div>
+            <div
+              onClick={scrollToBottom}
+              className="duration-100 hover:scale-110"
+            >
+              {" "}
+              Contact Us{" "}
+            </div>
             <div
               className="relative "
               onMouseEnter={toggleDropdown}
