@@ -8,7 +8,7 @@ function MainPage() {
     <>
       <Navbar />
       <HeroSection />
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

@@ -5,6 +5,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross1 } from "react-icons/rx";
 import SideScroll from "./SideScroll";
 import { useNavigate } from "react-router-dom";
+import ContactUs from "./ContactUs";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -31,8 +32,13 @@ function Navbar() {
         <div className="flex pt-[2vh] gap-x-8 text-slate-600 max-lg:hidden">
           <div className="flex p-2 cursor-pointer gap-x-8">
             <ul></ul>
-            <div className="duration-100 hover:scale-110 ">Services</div>
-            <div className="duration-100 hover:scale-110">ContactUs</div>
+            <div
+              onClick={() => {
+                navigate("/contact-us");
+              }}
+              className="duration-100 hover:scale-110 "
+            ></div>
+            <div className="duration-100 hover:scale-110"> Contact Us </div>
             <div
               className="relative "
               onMouseEnter={toggleDropdown}
@@ -88,11 +94,16 @@ function Navbar() {
               }}
               className=" hover:scale-110"
             >
-              Dispensation
+              Medication
             </div>
           </div>
         </div>
-        <div className="pt-[1.5vh] flex pl-14">
+        <div
+          onClick={() => {
+            navigate("/emergency");
+          }}
+          className="pt-[1.5vh] flex pl-14"
+        >
           <GlowingButton />
           <div
             onClick={() => {

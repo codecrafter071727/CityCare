@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function DoctorNewCard({doctor}) {
+function DoctorNewCard({ doctor }) {
+  const navigate = useNavigate();
+  const hospitalId = "66d30c7db1edbdc0f279c000";
   return (
     <div>
       <div className="bg-white rounded-lg shadow-lg ; p-3 border-style: solid; w-full sm:w-80 hover:shadow-lg transition-shadow duration-300 box-shadow: 9px 10px;">
@@ -8,13 +11,19 @@ function DoctorNewCard({doctor}) {
           {/* <img src={doctor.image} alt={doctor.name} className="w-20 h-20 rounded-full bg-80" /> */}
           <div>
             <h2 className="text-xl font-bold capitalize text-black-800">
-              {doctor.doctorName}
+              name: {doctor.doctorName}
             </h2>
             <p className="capitalize text-mg text-black-500 text-slate-500">
-              {doctor.doctorSpecialization}
+              specialisation: {doctor.doctorSpecialization}
             </p>
             <p className="capitalize text-mg text-black-500 text-slate-500">
-              {doctor.doctorStatus}
+              status: {doctor.doctorStatus}
+            </p>
+            <p className="capitalize text-mg text-black-500 text-slate-500">
+              experience: {doctor.doctorExperience}
+            </p>
+            <p className="capitalize text-mg text-black-500 text-slate-500">
+              qualification: {doctor.doctorQualification}
             </p>
           </div>
         </div>

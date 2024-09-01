@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function PatientSignup() {
   const hospitalId = useParams();
   const id = hospitalId.hospitalId;
- // console.log("new: ", id);
+  // console.log("new: ", id);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -117,8 +117,8 @@ function PatientSignup() {
                   }
                 );
                 alert("Appointment booked Successfully");
-           //     navigate("/patient-dashboard");
-           navigate("/")
+                navigate("/patient-dashboard");
+
                 //  console.log("this is the response bc", response.data.token);
                 localStorage.setItem("token", response.data.token);
               }}
