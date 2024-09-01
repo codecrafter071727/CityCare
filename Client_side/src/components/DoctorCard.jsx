@@ -37,7 +37,7 @@ function DoctorCard({ doctors, hospitalId }) {
             onClick={() => {
               navigate(`/patient-signup/${hospitalId}`);
             }}
-            className="px-4 py-2 text-gray-700 transition-colors duration-300 bg-red-100 rounded hover:bg-red-200"
+            className="px-4 py-2 text-gray-700 transition-colors duration-300 bg-red-100 rounded hover:bg-gray-300"
           >
             Book An Appointment
           </button>

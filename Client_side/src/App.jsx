@@ -15,6 +15,7 @@ import AllDoctorPages from "./pages/AllDoctorPages";
 import CardiacCare from "./DiseasePages/CardiacCare";
 import Neuroscience from "./DiseasePages/Neuroscience";
 import Gastrosciences from "./DiseasePages/Gastrosciences";
+import SymptomChecker from "./pages/SysmptomApi";
 
 function App() {
   return (
@@ -44,7 +45,8 @@ function App() {
           <Route path="/all-doctors" element={<AllDoctorPages />} />
           <Route path="/cardiac-care" element={<CardiacCare />} />
           <Route path="/Neurosciences" element={<Neuroscience />} />
-          <Route path="/gastrosciences" element={<Gastrosciences/>} />
+          <Route path="/gastrosciences" element={<Gastrosciences />} />
+          <Route path="/sysmptoms-api" element={<SymptomChecker />} />
         </Routes>
       </BrowserRouter>
     </>

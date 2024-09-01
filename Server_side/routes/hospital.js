@@ -12,15 +12,6 @@ const { JWT_SECRET } = require("../configuration");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
 
-// const signupBody = zod.object({
-//   hospitalName: zod.string(),
-//   email: zod.string().email(),
-//   password: zod.string().min(3),
-//   contactNumber: zod.string(),
-//   address: zod.string(),
-//   numberOfBeds: zod.number(),
-// });
-// sign up route!
 router.post("/signup", async (req, res) => {
   const {
     hospitalName,
@@ -30,12 +21,6 @@ router.post("/signup", async (req, res) => {
     address,
     numberOfBeds,
   } = req.body;
-  // const { success } = signupBody.safeParse(req.body);
-  // if (!success) {
-  //   return res.status(411).json({
-  //     message: "Email already taken / Incorrect inputs",
-  //   });
-  // }
 
   const existingUser = await Hospital.findOne({
     hospitalName: hospitalName,
@@ -90,6 +75,30 @@ router.post("/signin", async (req, res) => {
     token,
   });
 });
+
+router.put("/update-beds/:hospitalId", async (req, res) => {
+  const { hospitalId } = req.params;
+  const { numberOfBeds } = req.body;
+
+  try {
+    const hospital = await Hospital.findById(hospitalId);
+    if (!hospital) {
+      return res.status(404).json({ message: "Hospital not found" });
+    }
+
+    hospital.numberOfBeds = numberOfBeds;
+    await hospital.save();
+
+    res.status(200).json({
+      message: "Number of beds updated successfully",
+      hospital,
+    });
+  } catch (error) {
+    console.error("Error updating number of beds:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 // get all hospitals
 router.get("/gethospitals", async (req, res) => {
   try {
@@ -139,6 +148,10 @@ router.get("/get-all-doctors", async (req, res) => {
     doctors: doctors.map((doctor) => ({
       id: doctor._id,
       name: doctor.doctorName,
+      specialisation: doctor.doctorSpecialization,
+      experience: doctor.doctorExperience,
+      qualification: doctor.doctorQualification,
+      contactNumber: doctor.doctorContactNumber,
 
       // contactNumber: doctor.contactNumber,
     })),

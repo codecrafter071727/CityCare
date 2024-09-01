@@ -10,6 +10,13 @@ function HeroLeft() {
         <h1 className="mt-4 text-5xl font-bold leading-snug text-gray-800 max-md:hidden">
           An Ecosystem for Clinical Excellence
         </h1>
+        <div onClick={()=>{
+          navigate("/sysmptoms-api")
+        }} className="w-64 p-2 text-3xl shadow rounded-xl bg-slate-200">
+        <button>
+        Symptom Tracker
+        </button>
+        </div>
       </div>
       <div className="w-1/2">
         <ul className="space-y-6">
